@@ -11,6 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -63,6 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
       prefs.setInt('counter', _counter);
     });
   }
+
   void _resetCounter() async {
     // if (_counter <= 0) return;
     final prefs = await SharedPreferences.getInstance();
@@ -78,43 +80,56 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
         actions: [
-          IconButton(onPressed: _resetCounter ,icon: Icon(Icons.refresh))
+          IconButton(
+            onPressed: _resetCounter,
+            icon: const Icon(Icons.refresh),
+          )
         ],
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline2,
-            ),
-            Row(
-              children: [
-                FloatingActionButton(
-                  onPressed: _incrementCounter,
-                  tooltip: 'Increment',
-                  child: const Icon(Icons.add),
+            Expanded(
+              flex: 3,
+              child: Center(
+                child: Text(
+                  '$_counter',
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.height * 0.2),
                 ),
-                FloatingActionButton(
-                  onPressed: _decrementCounter,
-                  tooltip: 'Decrement',
-                  child: const Icon(Icons.remove),
+              ),
+            ),
+            // SizedBox(height:MediaQuery.of(context).size.height*0.4,),
+            Expanded(
+              flex: 2,
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    FloatingActionButton(
+                      onPressed: _decrementCounter,
+                      tooltip: 'Decrement',
+                      child: const Icon(Icons.remove),
+                    ),
+                    FloatingActionButton(
+                      onPressed: _incrementCounter,
+                      tooltip: 'Increment',
+                      child: const Icon(Icons.add),
+                    ),
+                  ],
                 ),
-              ],
-            )
+              ),
+            ),
           ],
         ),
       ),
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: _resetCounter,
+      //   tooltip: 'Reset',
+      //   child: const Icon(Icons.refresh),
+      // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
